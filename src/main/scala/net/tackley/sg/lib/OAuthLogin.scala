@@ -6,7 +6,7 @@ import io.Source
 import net.liftweb.util.Helpers.{urlDecode, appendParams}
 import org.apache.commons.httpclient.{HttpClient, MultiThreadedHttpConnectionManager}
 import net.liftweb.common.Loggable
-
+import xml.{Node, XML}
 
 object OAuthLogin extends Loggable {
 
@@ -24,7 +24,7 @@ object OAuthLogin extends Loggable {
         }
       }
     }
-  def get_request_token():Option[Token] = {
+  def requestRequestToken():Option[Token] = {
     val url = "http://api.twitter.com/oauth/request_token"
     val parameters = OAuth.sign("GET", url, Map.empty, consumer_token, Option.empty, Option.empty, Option.empty)
     val method = new GetMethod(appendParams (url, parameters.toSeq))
@@ -43,7 +43,7 @@ object OAuthLogin extends Loggable {
     }
   }
 
-  def get_access_token(request_token:Token, request_verifier:String):Option[Token] = {
+  def requestAccessToken(request_token:Token, request_verifier:String):Option[Token] = {
     val url = "http://api.twitter.com/oauth/access_token"
     val parameters = OAuth.sign("GET", url, Map.empty, consumer_token, Some(request_token), Some(request_verifier), Option.empty)
     val method = new GetMethod(appendParams (url, parameters.toSeq))
@@ -62,20 +62,14 @@ object OAuthLogin extends Loggable {
     }
   }
 
-  def get_user_details(request_token:Token):Option[String] = {
+  def requestUserDetails(request_token:Token):Option[Node] = {
     val url = "http://api.twitter.com/1/account/verify_credentials.xml"
     val parameters = OAuth.sign("GET", url, Map.empty, consumer_token, Some(request_token), Option.empty, Option.empty)
     val method = new GetMethod(appendParams (url, parameters.toSeq))
     try {
 
       httpClient.executeMethod(method)
-
-      val statusLine = method getStatusLine
-      val responseBody = Option(method.getResponseBodyAsStream)
-              .map(Source.fromInputStream(_).mkString)
-              .getOrElse("")
-      logger.info("User Details: "+ statusLine +" - " +responseBody)
-      Some(responseBody)
+      return Some(XML.load(method.getResponseBodyAsStream))
     } finally {
       method.releaseConnection
     }
