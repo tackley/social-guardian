@@ -2,9 +2,18 @@ package net.tackley.sg.snippet
 
 import net.liftweb.util.Helpers._
 import net.tackley.sg.lib.Current
+import net.liftweb.json.JsonDSL._
+import net.tackley.sg.model.{User}
+import net.liftweb.http.S
+import java.util.Date
 
 class ChooseTemplate {
-  def render = "*" #> <lift:embed what={pickTemplate}></lift:embed>
+  implicit val formats = net.liftweb.json.DefaultFormats
+  
+  def render = {
+    logUserRequest
+    "*" #> <lift:embed what={pickTemplate}></lift:embed>
+  }
 
 
   def pickTemplate = {
@@ -12,6 +21,14 @@ class ChooseTemplate {
     else if (Current.item.section.isDefined) "section"
     else if (Current.item.tag.isDefined) "tag"
     else "front"
+  }
+
+  def logUserRequest = {
+    for (user <- User.current.is) {
+      User.update("_id" -> user._id.toString,
+        ("$addToSet" -> ("history" -> S.uri) )
+      )
+    }
   }
  
 }

@@ -5,6 +5,9 @@ import net.liftweb.record._
 import field.{StringField, OptionalStringField, PasswordField, EmailField}
 import net.liftweb.http.SessionVar
 import net.liftweb.common._
+import java.util.Date
+import net.liftweb.mongodb.{JsonObjectMeta, JsonObject}
+import net.liftweb.mongodb.record.field.{MongoListField, MongoJsonObjectListField}
 
 class User extends MongoRecord[User] with MongoId[User] {
   def meta = User
@@ -15,6 +18,8 @@ class User extends MongoRecord[User] with MongoId[User] {
   object password extends PasswordField(this)
   object oauthAccessToken extends StringField(this, 128)
   object oauthAccessSecret extends StringField(this, 128)
+
+  object history extends MongoListField[User, String](this)
 }
 
 object User extends User with MongoMetaRecord[User]  {
