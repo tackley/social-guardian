@@ -20,6 +20,7 @@ class User extends MongoRecord[User] with MongoId[User] {
   object oauthAccessSecret extends StringField(this, 128)
 
   object history extends MongoListField[User, String](this)
+  object lastVisited extends StringField(this, 500)
 }
 
 object User extends User with MongoMetaRecord[User]  {

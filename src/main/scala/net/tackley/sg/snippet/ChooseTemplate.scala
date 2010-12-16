@@ -25,9 +25,9 @@ class ChooseTemplate {
 
   def logUserRequest = {
     for (user <- User.current.is) {
-      User.update("_id" -> user._id.toString,
-        ("$addToSet" -> ("history" -> S.uri) )
-      )
+      user.history.set(user.history.get ::: S.uri :: Nil)
+      user.lastVisited.set(S.uri)
+      user.save
     }
   }
  
