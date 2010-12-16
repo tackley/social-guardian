@@ -11,7 +11,7 @@ class UserTest extends FlatSpec with ShouldMatchers {
 
   "User" should "be saved to mongo" in {
     val u: User = User.createRecord
-    u.firstName("Test").password("pants").email("a@example.com").save
+    u.password("pants").email("a@example.com").save
 
     u.fields.foreach { f: Field[_, _] => println(f.toXHtml) }
 
