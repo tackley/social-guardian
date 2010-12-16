@@ -21,7 +21,8 @@ class Boot {
     LiftRules.htmlProperties.default.set((r: Req) => new Html5Properties(r.userAgent))
 
    LiftRules.statelessRewrite.append {
-       case RewriteRequest(ParsePath(path, "", _, _), GetRequest, httpreq) if path != ("index" :: Nil) && (path.headOption != Some("oauth")) =>
+       case RewriteRequest(ParsePath(path, "", _, _), GetRequest, httpreq)
+         if !(List(Some("oauth"), Some("index"), Some("comet_request")) contains path.headOption) =>
           println("rewriting " + path)
           RewriteResponse("index" :: Nil, Map("path" -> path.mkString("/")))
      }

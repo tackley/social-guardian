@@ -2,10 +2,9 @@ package net.tackley.sg.snippet
 
 import net.liftweb.util.Helpers._
 import net.tackley.sg.lib.Current
-import net.liftweb.json.JsonDSL._
-import net.tackley.sg.model.{User}
+import net.tackley.sg.model.User
 import net.liftweb.http.S
-import java.util.Date
+import net.tackley.sg.comet.ReadingNowServer
 
 class ChooseTemplate {
   implicit val formats = net.liftweb.json.DefaultFormats
@@ -28,6 +27,8 @@ class ChooseTemplate {
       user.history.set(user.history.get ::: S.uri :: Nil)
       user.lastVisited.set(S.uri)
       user.save
+
+      ReadingNowServer ! (user.name.get, S.uri)
     }
   }
  

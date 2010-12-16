@@ -10,7 +10,7 @@ class DisplayContent {
      ".standfirst *" #> content.safeFields.get("standfirst").map(Unparsed(_)) &
      ".byline *" #> content.safeFields.get("byline").map(Unparsed(_)) &
      ".body *" #> content.safeFields.get("body").map(Unparsed(_)) &
-     "li *" #> content.tags.filter(_.tagType=="keyword").map { item =>
+     ".tags *" #> content.tags.filter(_.tagType=="keyword").map { item =>
        ".link-text" #> <a href={"/"+item.id}>{item.webTitle}</a>
      }
    }
