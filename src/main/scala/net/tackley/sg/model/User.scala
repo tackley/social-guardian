@@ -7,7 +7,7 @@ import net.liftweb.http.SessionVar
 import net.liftweb.common._
 import java.util.Date
 import net.liftweb.mongodb.{JsonObjectMeta, JsonObject}
-import net.liftweb.mongodb.record.field.{MongoListField, MongoJsonObjectListField}
+import net.liftweb.mongodb.record.field.{MongoMapField, MongoListField, MongoJsonObjectListField}
 
 class User extends MongoRecord[User] with MongoId[User] {
   def meta = User
@@ -21,6 +21,7 @@ class User extends MongoRecord[User] with MongoId[User] {
 
   object history extends MongoListField[User, String](this)
   object lastVisited extends StringField(this, 500)
+  object interestingTags extends MongoMapField[User, Int](this)
 }
 
 object User extends User with MongoMetaRecord[User]  {
