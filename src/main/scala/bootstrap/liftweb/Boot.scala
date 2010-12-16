@@ -4,6 +4,7 @@ import net.liftweb.mongodb._
 import net.liftweb.sitemap._
 import net.tackley.sg.model.User
 import net.liftweb.http._
+import com.gu.openplatform.contentapi.Api
 
 class Boot {
   import Loc._
@@ -20,5 +21,7 @@ class Boot {
      }
 
     LiftRules.addToPackages("net.tackley.sg")
+
+    Api.apiKey = Some("k8nd4jpt2fxmv3ewwevwahrr")
   }
 }
