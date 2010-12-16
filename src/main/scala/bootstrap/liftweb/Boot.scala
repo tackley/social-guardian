@@ -49,13 +49,13 @@ class Boot {
     val userDetails = OAuthLogin.requestUserDetails(access_token).get
     logger.debug("Access token = "+access_token)
     logger.debug("User = "+userDetails \ "name")
-    val user:User = User.createRecord
-    user.name(userDetails \ "screen_name" text)
-    user.fullName(userDetails \ "name" text)
-    user.oauthAccessToken(access_token.value)
-    user.oauthAccessSecret(access_token.secret)
-    user.save(strict = true)
-    User.current(Full(user))
+    val u = User.find("oauthAccessToken", access_token.value).getOrElse(User.createRecord)
+    u.name(userDetails \ "screen_name" text)
+    u.fullName(userDetails \ "name" text)
+    u.oauthAccessToken(access_token.value)
+    u.oauthAccessSecret(access_token.secret)
+    u.save(strict = true)
+    User.current(Full(u))
     return Full(RedirectResponse("/"))
   }
 
