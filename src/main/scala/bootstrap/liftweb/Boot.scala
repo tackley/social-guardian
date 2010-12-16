@@ -8,12 +8,15 @@ import com.gu.openplatform.contentapi.Api
 import net.tackley.sg.lib.OAuthLogin
 import net.liftweb.common.{Logger, Box, Full}
 import dispatch.oauth._
+import net.liftweb.json.JsonDSL._
+import net.liftweb.json.JsonAST._
 
 class Boot {
   import Loc._
 
   def boot = {
     MongoDB.defineDbAuth(DefaultMongoIdentifier, MongoAddress(MongoHost("flame.mongohq.com", 27063), "socialguardian"), "bruntonspall", "1234567")
+    User.ensureIndex("name" -> 1, ("unique" -> true) ~ ("background" -> true))
 
     LiftRules.htmlProperties.default.set((r: Req) => new Html5Properties(r.userAgent))
 

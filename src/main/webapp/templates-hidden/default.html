@@ -19,7 +19,7 @@
             <p>We promise to never send tweets from your account, we simply use twitter to find out who is in your social circle</p>
 
 
-            <div class="lift:CustomConditions.isLocal lift:PretendLogin?form=post locallogin">
+            <div class="lift:Login.pretend?form=post locallogin">
                 <p>Since you are a friendly local, why not login without all the oauth hassle?</p>
                 <label for="loginName">Username: </label><input type="text "id="loginName">
                 <input type="submit" id="go" value="go">
@@ -27,7 +27,12 @@
         </div>
         
         <div class="lift:TestCond.loggedin">
-            
+           <div class="lift:Login.details" >
+               Logged in as <span class="username"></span>
+               <a href="#">Log out</a>
+               <hr>
+           </div>
+
             <lift:bind name="content" />
         </div>
 
