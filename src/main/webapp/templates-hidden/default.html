@@ -18,14 +18,14 @@
             You are logged out.  <a href="/oauth/signin">Click here to sign in.</a>
 
 
-            <div class="lift:CustomConditions.isLocal lift:PretendLogin?form=post">
+            <div class="lift:Login.pretend?form=post">
                 <label for="loginName"></label><input type="text "id="loginName">
                 <input type="submit" id="go" value="go">
             </div>
         </div>
         
         <div class="lift:TestCond.loggedin">
-           <div class="lift:LoginDetails" >
+           <div class="lift:Login.details" >
                Logged in as <span class="username"></span>
                <a href="#">Log out</a>
                <hr>
