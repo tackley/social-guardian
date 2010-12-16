@@ -5,9 +5,10 @@ import dispatch.oauth._
 import io.Source
 import net.liftweb.util.Helpers.{urlDecode, appendParams}
 import org.apache.commons.httpclient.{HttpClient, MultiThreadedHttpConnectionManager}
+import net.liftweb.common.Loggable
 
 
-object OAuthLogin {
+object OAuthLogin extends Loggable {
 
   val consumer_token = Consumer("fbvfFeJMOIr776WVeCcPw", "sXVB1OojJFxJrmrzCOgeuyBU91nO8DxbwXMbWWcP3pg")
 
@@ -35,11 +36,49 @@ object OAuthLogin {
       val responseBody = Option(method.getResponseBodyAsStream)
               .map(Source.fromInputStream(_).mkString)
               .getOrElse("")
+      logger.info("Request Token: "+ statusLine +" - " +responseBody)
       Token(split_decode(responseBody))
     } finally {
       method.releaseConnection
     }
+  }
 
+  def get_access_token(request_token:Token, request_verifier:String):Option[Token] = {
+    val url = "http://api.twitter.com/oauth/access_token"
+    val parameters = OAuth.sign("GET", url, Map.empty, consumer_token, Some(request_token), Some(request_verifier), Option.empty)
+    val method = new GetMethod(appendParams (url, parameters.toSeq))
+    try {
+
+      httpClient.executeMethod(method)
+
+      val statusLine = method getStatusLine
+      val responseBody = Option(method.getResponseBodyAsStream)
+              .map(Source.fromInputStream(_).mkString)
+              .getOrElse("")
+      logger.info("Access Token: "+ statusLine +" - " +responseBody)
+      Token(split_decode(responseBody))
+    } finally {
+      method.releaseConnection
+    }
+  }
+
+  def get_user_details(request_token:Token):Option[String] = {
+    val url = "http://api.twitter.com/1/account/verify_credentials.xml"
+    val parameters = OAuth.sign("GET", url, Map.empty, consumer_token, Some(request_token), Option.empty, Option.empty)
+    val method = new GetMethod(appendParams (url, parameters.toSeq))
+    try {
+
+      httpClient.executeMethod(method)
+
+      val statusLine = method getStatusLine
+      val responseBody = Option(method.getResponseBodyAsStream)
+              .map(Source.fromInputStream(_).mkString)
+              .getOrElse("")
+      logger.info("User Details: "+ statusLine +" - " +responseBody)
+      Some(responseBody)
+    } finally {
+      method.releaseConnection
+    }
   }
 
   /**How does OAuth actually work for User login?
