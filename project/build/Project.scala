@@ -2,6 +2,7 @@ import sbt._
 
 class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) {
   val liftVersion = "2.2-RC1"
+  val dispatchVersion = "0.7.8"
 
   val scalaSnapshots = ScalaToolsSnapshots
   val guardianGithub = "Guardian Github Releases" at "http://guardian.github.com/maven/repo-releases"
@@ -16,6 +17,8 @@ class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) {
   val contentApiClient = "com.gu.openplatform" %% "content-api-client" % "1.10-SNAPSHOT" withSources()
 
   val liftTestkit = "net.liftweb" %% "lift-testkit" % liftVersion
+
+  val dispatchTwitter = "net.databinder" %% "dispatch-oauth" % dispatchVersion withSources
 
   val jettyLib = "org.mortbay.jetty" % "jetty" % "6.1.22" % "test"
   val junit = "org.scalatest" % "scalatest" % "1.2" % "test"

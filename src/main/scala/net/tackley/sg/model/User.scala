@@ -2,15 +2,19 @@ package net.tackley.sg.model
 
 import net.liftweb.mongodb.record.{MongoId, MongoMetaRecord, MongoRecord}
 import net.liftweb.record._
-import field.{PasswordField, EmailField}
+import field.{StringField, OptionalStringField, PasswordField, EmailField}
 import net.liftweb.http.SessionVar
 import net.liftweb.common._
 
 class User extends MongoRecord[User] with MongoId[User] {
   def meta = User
 
+  object name extends StringField(this, 64)
+  object fullName extends StringField(this, 64)
   object email extends EmailField(this, 100)
   object password extends PasswordField(this)
+  object oauthAccessToken extends StringField(this, 128)
+  object oauthAccessSecret extends StringField(this, 128)
 }
 
 object User extends User with MongoMetaRecord[User]  {
