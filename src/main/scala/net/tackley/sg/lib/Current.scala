@@ -11,7 +11,7 @@ object Current {
   def loadItem = {
      val path = S.param("path").openOr("/")
       try {
-        Api.item.itemId(path).showFields("all").showEditorsPicks().response
+        Api.item.itemId(path).showFields("all").showEditorsPicks().showTags("all").response
       } catch {
         case e: FileNotFoundException => throw new ResponseShortcutException(NotFoundResponse("Item not found in API"))
       }
