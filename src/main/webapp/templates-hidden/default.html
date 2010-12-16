@@ -2,24 +2,26 @@
 <html>
   <head>
 
-        <title>SG</title>
-        <style class="lift:CSS.blueprint"></style>
-        <style class="lift:CSS.fancyType" ></style>
-        <script id="jquery" src="/classpath/jquery.js" type="text/javascript"></script>
-        <script id="json" src="/classpath/json.js" type="text/javascript"></script>
-
+    <title>SG</title>
+    <style class="lift:CSS.blueprint"></style>
+    <style class="lift:CSS.fancyType" ></style>
+    <script id="jquery" src="/classpath/jquery.js" type="text/javascript"></script>
+    <script id="json" src="/classpath/json.js" type="text/javascript"></script>
+    <link type="text/css" href="/static/sc.css" rel="stylesheet" media="screen, projection" />
   </head>
   <body>
     <div class="container">
 
-        <div class="lift:TestCond.loggedout">
+        <div class="lift:TestCond.loggedout span-12 push-6 loginbox">
             <h1>It's a social thing...</h1>
             <p>We need to know a bit more about you before you can get to the juicy stuff.</p>
-            You are logged out.  <a href="/oauth/signin">Click here to sign in.</a>
+            <p><a href="/oauth/signin"><img src="http://a0.twimg.com/images/dev/buttons/sign-in-with-twitter-d.png" > </a></p>
+            <p>We promise to never send tweets from your account, we simply use twitter to find out who is in your social circle</p>
 
 
-            <div class="lift:CustomConditions.isLocal lift:PretendLogin?form=post">
-                <label for="loginName"></label><input type="text "id="loginName">
+            <div class="lift:CustomConditions.isLocal lift:PretendLogin?form=post locallogin">
+                <p>Since you are a friendly local, why not login without all the oauth hassle?</p>
+                <label for="loginName">Username: </label><input type="text "id="loginName">
                 <input type="submit" id="go" value="go">
             </div>
         </div>
