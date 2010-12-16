@@ -1,0 +1,19 @@
+p + p {
+text-indent: 0;
+}
+
+.loginbox {
+background-color: #DDF;
+padding: 20px;
+border: 2px black solid;
+}
+
+.loginbox img {
+padding: 10px 0px;
+}
+
+.locallogin {
+background-color: #FDD;
+padding: 20px;
+border: 2px black solid;
+}
