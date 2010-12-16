@@ -12,7 +12,19 @@
   <body>
     <div class="container">
 
-        <lift:bind name="content" />
+        <div class="lift:TestCond.loggedout">
+            You are logged out.  <a href="/oauth/signin">Click here to sign in.</a>
+
+            <div class="lift:PretendLogin?form=post">
+                <label for="loginName"></label><input type="text "id="loginName">
+                <input type="submit" id="go" value="go">
+            </div>
+        </div>
+        
+        <div class="lift:TestCond.loggedin">
+            
+            <lift:bind name="content" />
+        </div>
 
     </div>
   </body>

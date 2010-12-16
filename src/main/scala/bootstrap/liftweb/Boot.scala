@@ -25,6 +25,8 @@ class Boot {
 
     LiftRules.addToPackages("net.tackley.sg")
 
+    LiftRules.loggedInTest = Full(User.isLoggedIn _)
+
     Api.apiKey = Some("k8nd4jpt2fxmv3ewwevwahrr")
 
     LiftRules.dispatch.append {
@@ -41,6 +43,8 @@ class Boot {
     S.set("oauth_request_secret", request_token.secret)
     return Full(RedirectResponse("http://api.twitter.com/oauth/authenticate?oauth_token="+request_token.value))
   }
+
+  
   def doCallback:Box[LiftResponse] = {
     val token = Token(S.param("oauth_token").get, S.get("oauth_request_secret").get)
     val verifier = S.param("oauth_verifier").get
