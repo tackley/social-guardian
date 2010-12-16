@@ -13,9 +13,12 @@
     <div class="container">
 
         <div class="lift:TestCond.loggedout">
+            <h1>It's a social thing...</h1>
+            <p>We need to know a bit more about you before you can get to the juicy stuff.</p>
             You are logged out.  <a href="/oauth/signin">Click here to sign in.</a>
 
-            <div class="lift:PretendLogin?form=post">
+
+            <div class="lift:CustomConditions.isLocal lift:PretendLogin?form=post">
                 <label for="loginName"></label><input type="text "id="loginName">
                 <input type="submit" id="go" value="go">
             </div>
