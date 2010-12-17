@@ -7,8 +7,11 @@ import net.liftweb.common.{Full, Empty}
 import net.liftweb.http.{S, SHtml}
 
 class Login  {
-  def details = ".username *" #> User.current.is.get.fullName &
-          "a " #> SHtml.link("#", logout _, Text("logout"))
+  lazy val user = User.current.is.get
+
+  def details = ".username *" #> user.fullName &
+          "a " #> SHtml.link("#", logout _, Text("logout")) &
+          ".num-pages" #> (user.history.get.size)
 
   def pretend =
     "*" #> Full(S.hostName).filter(_ == "localhost").map { ignore =>
