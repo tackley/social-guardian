@@ -22,11 +22,8 @@ class DisplayContent extends Loggable {
   def logUserRequest = {
     for (user <- User.current.is) {
       var tagMap = user.interestingTags.get
-      for (tag <- content.tags) {
-        val value = tagMap.getOrElse(tag.id, 0)+1
-        tagMap = tagMap.updated(tag.id, value)
-      }
-      user.interestingTags.set(tagMap)
+      val interestedTags = content.tags.filter(_.tagType!="type").map(tag => (tag.id,(tagMap.getOrElse(tag.id,0)+1))).toMap
+      user.interestingTags.set(tagMap++interestedTags)
       user.save
     }
   }

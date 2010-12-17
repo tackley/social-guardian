@@ -26,3 +26,15 @@ border: 2px black solid;
 .story h6 {
     margin: 10px 0px 5px 0px;
 }
+
+.favourites {
+    position: relative;
+    clear: both;
+       height: 1px;
+}
+
+.favourites li {
+    float: left;
+    list-style: none;
+       padding: 0 0 0 10px;
+}
