@@ -8,7 +8,7 @@ import xml._
 class DisplayResults {
 
   def bind(content: List[Content]) = "*" #> content.map { item =>
-    ".link-text" #> <a href={"/" + item.id}>{item.webTitle}</a> &
+    ".link-text" #> <a href={"/" + item.id}>{Unparsed(item.webTitle)}</a> &
     ".trail-text *" #> item.safeFields.get("trailText").map(Unparsed(_))
   }
 

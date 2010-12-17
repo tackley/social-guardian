@@ -2,7 +2,7 @@ nav p + p {
 text-indent: 0;
 }
 
-.loginbox {
+.loginbox, .no-body {
 background-color: #DDF;
 padding: 20px;
 border: 2px black solid;
@@ -12,7 +12,7 @@ border: 2px black solid;
 padding: 10px 0px;
 }
 
-.locallogin {
+.locallogin, .no-rights {
 background-color: #FDD;
 padding: 20px;
 border: 2px black solid;
