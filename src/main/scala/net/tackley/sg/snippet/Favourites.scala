@@ -14,5 +14,7 @@ class Favourites {
   val user: User = User.current.is.get
   val tags = user.interestingTags.get.toList.sortBy {case (k,v) => v}.reverse.take(5).map(_._1)
 
-  def list = "li *" #> tags
+  def list = "li *" #> tags.map {
+    "a"
+  }
 }

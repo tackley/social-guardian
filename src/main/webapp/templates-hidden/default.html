@@ -34,7 +34,6 @@
                    Logged in as <span class="username"></span>
                    <a href="#">Log out</a>
                 </div>
-
                 <div class="readingnow lift:Comet?type=ReadingNow infobox">
                     <h4>Reading now</h4>
                     <ul>
@@ -42,32 +41,29 @@
                     </ul>
                 </div>
                  <!-- recommendations -->
-            <div class="lift:Recommendations infobox">
-                 <h4>We recommend:</h4>
-                <ul>
-                    <li class="recommendations"><a class="link-text" href="#">Web title</a></span></li>
-                </ul>
-            </div>
-
-            <div class="favourites infobox">
+                <div class="lift:Recommendations infobox">
+                     <h4>We recommend:</h4>
+                    <ul>
+                        <li class="recommendations"><a class="link-text" href="#">Web title</a></li>
+                    </ul>
+                </div>
+                <div class="favourites infobox">
                     <h4>Your favourite tags</h4>
                     <ul class="lift:Favourites.list">
-                        <li>My Tag</li>
+                        <li><a class="taglink" href="#">My Tag</a></li>
                     </ul>
                 </div>
 
-            <div class="taglist lift:ContentTags contenttags infobox">
+                <div class="taglist lift:ContentTags contenttags infobox">
                     <h4>Tags on this content</h4>
                     <!-- tags -->
                     <div>
                         <ul>
-                            <li class="tags"><a class="link-text" href="#">Web title</a></span></li>
+                            <li class="tags"><a class="link-text" href="#">Web title</a></li>
                         </ul>
                     </div>
                 </div>
-
-           </div>
-
+            </div>
             <lift:bind name="content" />
         </div>
 
