@@ -22,4 +22,6 @@ class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) {
 
   val jettyLib = "org.mortbay.jetty" % "jetty" % "6.1.22" % "test"
   val junit = "org.scalatest" % "scalatest" % "1.2" % "test"
+
+  override def compileOptions = super.compileOptions ++ Seq(Unchecked)
 }

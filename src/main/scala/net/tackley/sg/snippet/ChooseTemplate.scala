@@ -4,7 +4,7 @@ import net.liftweb.util.Helpers._
 import net.tackley.sg.lib.Current
 import net.tackley.sg.model.User
 import net.liftweb.http.S
-import net.tackley.sg.comet.ReadingNowServer
+import net.tackley.sg.comet._
 
 class ChooseTemplate {
   implicit val formats = net.liftweb.json.DefaultFormats
@@ -28,8 +28,12 @@ class ChooseTemplate {
       user.lastVisited.set(S.uri)
       user.save
 
-      ReadingNowServer ! (user.name.get, S.uri)
+      ReadingNowServer ! ReadingNowInfo(user.name.get, S.uri, currentHeadline)
     }
   }
- 
+
+  def currentHeadline = Current.item.content.map(_.webTitle)
+    .orElse(Current.item.section.map(_.webTitle))
+    .orElse(Current.item.tag.map(_.webTitle))
+    .getOrElse("front")
 }
