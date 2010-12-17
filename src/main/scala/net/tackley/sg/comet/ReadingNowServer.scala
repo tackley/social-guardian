@@ -37,7 +37,7 @@ class ReadingNow extends CometActor with CometListener {
     val currentUri = for (user <- User.current.is) yield user.lastVisited.get
 
     "li" #> readingNow.filterNot(currentUsername === _.user).map { r =>
-      ".user *" #> ("@" + r.user) &
+      ".user" #> <a href={"http://twitter.com/"+r.user}>{"@" + r.user}</a> &
       ".link" #> <a href={r.uri}>{r.pageName}</a> &
       "* [class+]" #> ( if(currentUri === r.uri ) "currentUser" else "" )
     }
