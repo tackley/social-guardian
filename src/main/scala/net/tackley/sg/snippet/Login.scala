@@ -29,7 +29,7 @@ class Login  {
 
     User.current(Full(user))
 
-    S.redirectTo("/")
+    S.redirectTo(S.uri)
   }
 
   def logout = User.current.set(Empty)
