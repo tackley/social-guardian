@@ -40,5 +40,13 @@ border: 2px black solid;
 }
 
 .currentUser {
- background-color: #00FF00;
+ background-color: #CFC;
+}
+
+.left {
+   margin: 1.5em 1.5em 1.5em 0px;
+   margin-top: 1.5em;
+   margin-right: 1.5em;
+   margin-bottom: 1.5em;
+   margin-left: 0px;
 }

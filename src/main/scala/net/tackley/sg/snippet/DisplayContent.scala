@@ -6,6 +6,7 @@ import net.liftweb.util.Helpers._
 import net.tackley.sg.model.{User}
 import xml.Unparsed
 import net.liftweb.common.Loggable
+import xml._
 
 class DisplayContent extends Loggable {
    def render = {
@@ -14,6 +15,7 @@ class DisplayContent extends Loggable {
      ".standfirst *" #> content.safeFields.get("standfirst").map(Unparsed(_)) &
      ".byline *" #> content.safeFields.get("byline").map(Unparsed(_)) &
      ".body *" #> body &
+     ".thumbnail *" #> thumbnail &
      ".tags *" #> content.tags.filter(_.tagType=="keyword").map { item =>
        ".link-text" #> <a href={"/"+item.id}>{item.webTitle}</a>
      }
@@ -31,6 +33,12 @@ class DisplayContent extends Loggable {
   lazy val content = Current.item.content.get
 
   lazy val rawBody = content.safeFields.get("body")
+
+  lazy val thumbnail = rawBody match {
+    case None => Text("")
+    case Some("<!-- Redistribution rights for this field are unavailable -->") => Text("")
+    case Some(other) => content.safeFields.get("thumbnail").map(thumb => <img src={thumb} class="top pull-1 left" />).getOrElse(NodeSeq.Empty)
+  }
 
   lazy val body = rawBody match {
     case None =>
