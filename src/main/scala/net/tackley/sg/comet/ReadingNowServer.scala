@@ -3,6 +3,7 @@ package net.tackley.sg.comet
 import net.liftweb.actor.LiftActor
 import net.liftweb.http.{CometActor, CometListener, ListenerManager}
 import net.liftweb.util.Helpers._
+import net.tackley.sg.model.User
 
 
 case class ReadingNowInfo(user: String, uri: String, pageName: String)
@@ -15,7 +16,7 @@ object ReadingNowServer extends LiftActor with ListenerManager {
 
   override def lowPriority = {
     case r: ReadingNowInfo => {
-      readingNow = r :: readingNow.filter(_.user == r.user)
+      readingNow = r :: readingNow.filter(_.user != r.user)
       println("reading now list updated to - " + readingNow)
       updateListeners()
     }
@@ -37,9 +38,13 @@ class ReadingNow extends CometActor with CometListener {
 
   def render = {
     println("rendering reading now! - " + readingNow)
-    "li" #> readingNow.map { r =>
+    println("by the way I think the current user is " + User.current.is)
+
+    val currentUsername = for (user <- User.current.is) yield user.name.get
+
+    "li" #> readingNow.filterNot(currentUsername === _.user).map { r =>
       ".user *" #> ("@" + r.user) &
-      ".link" #> <a href={r.uri}>r.pageName</a>
+      ".link" #> <a href={r.uri}>{r.pageName}</a>
     }
   }
 }
