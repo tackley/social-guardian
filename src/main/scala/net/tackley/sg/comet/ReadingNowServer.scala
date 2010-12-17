@@ -4,7 +4,7 @@ import net.liftweb.actor.LiftActor
 import net.liftweb.http.{CometActor, CometListener, ListenerManager}
 import net.liftweb.util.Helpers._
 import net.tackley.sg.model.User
-
+import xml._
 
 case class ReadingNowInfo(user: String, uri: String, pageName: String)
 
@@ -41,10 +41,12 @@ class ReadingNow extends CometActor with CometListener {
     println("by the way I think the current user is " + User.current.is)
 
     val currentUsername = for (user <- User.current.is) yield user.name.get
+    val currentUri = for (user <- User.current.is) yield user.lastVisited.get
 
     "li" #> readingNow.filterNot(currentUsername === _.user).map { r =>
       ".user *" #> ("@" + r.user) &
-      ".link" #> <a href={r.uri}>{r.pageName}</a>
+      ".link" #> <a href={r.uri}>{r.pageName}</a> &
+      "* [class+]" #> ( if(currentUri === r.uri ) "currentUser" else "" )
     }
   }
 }

@@ -38,3 +38,7 @@ border: 2px black solid;
     list-style: none;
        padding: 0 0 0 10px;
 }
+
+.currentUser {
+ background-color: #00FF00;
+}
