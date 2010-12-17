@@ -6,7 +6,7 @@ nav p + p {
 text-indent: 0;
 }
 
-.loginbox {
+.loginbox, .no-body {
 background-color: #DDF;
 padding: 20px;
 border: 2px black solid;
@@ -16,7 +16,7 @@ border: 2px black solid;
 padding: 10px 0px;
 }
 
-.locallogin {
+.locallogin, .no-rights {
 background-color: #FDD;
 padding: 20px;
 border: 2px black solid;
@@ -55,4 +55,16 @@ h1 a {
 .infobox {
 padding: 5px 0px;
 border-bottom: 1px #ddd solid;
+}
+
+.currentUser {
+ background-color: #CFC;
+}
+
+.left {
+   margin: 1.5em 1.5em 1.5em 0px;
+   margin-top: 1.5em;
+   margin-right: 1.5em;
+   margin-bottom: 1.5em;
+   margin-left: 0px;
 }
