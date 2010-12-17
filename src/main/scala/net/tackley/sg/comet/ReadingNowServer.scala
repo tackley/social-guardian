@@ -6,7 +6,7 @@ import net.liftweb.util.Helpers._
 import net.tackley.sg.model.User
 import xml._
 
-case class ReadingNowInfo(user: String, uri: String, pageName: String)
+case class ReadingNowInfo(user: String, uri: String, pageName: String, trailText: String)
 
 
 object ReadingNowServer extends LiftActor with ListenerManager {
@@ -36,9 +36,32 @@ class ReadingNow extends CometActor with CometListener {
     val currentUsername = for (user <- User.current.is) yield user.name.get
     val currentUri = for (user <- User.current.is) yield user.lastVisited.get
 
-    "li" #> readingNow.filterNot(currentUsername === _.user).map { r =>
+    "*" #> readingNow.filterNot(currentUsername === _.user).map { r =>
       ".user" #> <a href={"http://twitter.com/"+r.user}>{"@" + r.user}</a> &
       ".link" #> <a href={r.uri}>{r.pageName}</a> &
+      ".trail-text" #> Unparsed(r.trailText) &
+      "* [class+]" #> ( if(currentUri === r.uri ) "currentUser" else "" )
+    }
+  }
+}
+
+class ReadingNowMain extends CometActor with CometListener {
+  private var readingNow: List[ReadingNowInfo] = Nil
+
+  def registerWith = ReadingNowServer
+
+  override def lowPriority = {
+    case l: List[ReadingNowInfo] => readingNow = l; reRender()
+  }
+
+  def render = {
+    val currentUsername = for (user <- User.current.is) yield user.name.get
+    val currentUri = for (user <- User.current.is) yield user.lastVisited.get
+
+    "*" #> readingNow.filterNot(currentUsername === _.user).map { r =>
+      ".user" #> <a href={"http://twitter.com/"+r.user}>{"@" + r.user}</a> &
+      ".link" #> <a href={r.uri}>{r.pageName}</a> &
+      ".trail-text" #> Unparsed(r.trailText) &
       "* [class+]" #> ( if(currentUri === r.uri ) "currentUser" else "" )
     }
   }

@@ -28,7 +28,7 @@ class ChooseTemplate {
       user.lastVisited.set(S.uri)
       user.save
 
-      ReadingNowServer ! ReadingNowInfo(user.name.get, S.uri, currentHeadline)
+      ReadingNowServer ! ReadingNowInfo(user.name.get, S.uri, currentHeadline, currentStandfirst)
     }
   }
 
@@ -36,4 +36,7 @@ class ChooseTemplate {
     .orElse(Current.item.section.map(_.webTitle))
     .orElse(Current.item.tag.map(_.webTitle))
     .getOrElse("front")
+
+  def currentStandfirst = Current.item.content.flatMap(_.safeFields.get("standfirst"))
+    .getOrElse("Summary page for "+currentHeadline)
 }
