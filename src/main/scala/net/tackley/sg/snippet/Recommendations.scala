@@ -15,7 +15,7 @@ class Recommendations  {
 
 
   lazy val scoredContent = latestContent
-    .filterNot(c => myUris.contains(c.id))
+    .filterNot(c => myUris.contains("/"+c.id))
     .map(content => content -> scoreContent(content))
     .sortBy { case (content, score) => score }.reverse.take(5)
 
