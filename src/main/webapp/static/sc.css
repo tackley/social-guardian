@@ -1,3 +1,7 @@
+ul, ol {
+    margin 0 0 0 1.5em;
+}
+
 nav p + p {
 text-indent: 0;
 }
@@ -27,16 +31,30 @@ border: 2px black solid;
     margin: 10px 0px 5px 0px;
 }
 
-.favourites {
-    position: relative;
-    clear: both;
-       height: 1px;
+.fullarticle {
+float: left;
 }
 
-.favourites li {
-    float: left;
-    list-style: none;
-       padding: 0 0 0 10px;
+.standfirst {
+    margin-top: 10px;
+    border-top: 1px #ddd solid;
+    padding-top: 5px;
+}
+
+h1 a {
+    text-decoration: none;
+    color: #111;
+}
+
+.article-header {
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px #ddd solid;
+}
+
+.infobox {
+padding: 5px 0px;
+border-bottom: 1px #ddd solid;
 }
 
 .currentUser {

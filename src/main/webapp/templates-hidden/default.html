@@ -11,7 +11,8 @@
   </head>
   <body>
     <div class="container">
-
+        <h1><a href="/">The Social Guardian</a></h1>
+        <hr>
         <div class="lift:TestCond.loggedout span-16 push-4 loginbox">
             <h1>It's a social thing...</h1>
             <p>We need to know a bit more about you before you can get to the juicy stuff.</p>
@@ -27,15 +28,43 @@
         </div>
         
         <div class="lift:TestCond.loggedin">
-           <div class="lift:Login.details" >
-               Logged in as <span class="username"></span>
-               <a href="#">Log out</a>
-               <hr>
-           </div>
+            <div class="sidebar span-6 border">
+                <div class="lift:Login.details aboutyou infobox" >
+                    <h4>About You</h4>
+                   Logged in as <span class="username"></span>
+                   <a href="#">Log out</a>
+                </div>
+                <div class="favourites infobox">
+                    <h4>Your favourite tags</h4>
+                    <ul class="lift:Favourites.list">
+                        <li>My Tag</li>
+                    </ul>
+                </div>
+                <div class="readingnow lift:Comet?type=ReadingNow infobox">
+                    <h4>Reading now</h4>
+                    <ul>
+                        <li><span class="user">username</span> <a href="#" class="link">Web link</a> </li>
+                    </ul>
+                </div>
+                <div class="taglist lift:ContentTags contenttags infobox">
+                    <h4>Tags on this content</h4>
+                    <!-- tags -->
+                    <div>
+                        <ul>
+                            <li class="tags"><a class="link-text" href="#">Web title</a></span></li>
+                        </ul>
+                    </div>
+                </div>
 
-                <ul class="lift:Favourites.list favourites">
-                    <li>My Tag</li>
+                 <!-- recommendations -->
+            <div class="lift:Recommendations">
+                 <h4>We recommend:</h4>
+                <ul>
+                    <li class="recommendations"><a class="link-text" href="#">Web title</a></span></li>
                 </ul>
+            </div>
+
+           </div>
 
             <lift:bind name="content" />
         </div>

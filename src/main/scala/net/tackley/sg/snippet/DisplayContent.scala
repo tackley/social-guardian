@@ -15,10 +15,7 @@ class DisplayContent extends Loggable {
      ".standfirst *" #> content.safeFields.get("standfirst").map(Unparsed(_)) &
      ".byline *" #> content.safeFields.get("byline").map(Unparsed(_)) &
      ".body *" #> body &
-     ".thumbnail *" #> thumbnail &
-     ".tags *" #> content.tags.filter(_.tagType=="keyword").map { item =>
-       ".link-text" #> <a href={"/"+item.id}>{item.webTitle}</a>
-     }
+     ".thumbnail *" #> thumbnail
    }
 
   def logUserRequest = {
