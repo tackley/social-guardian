@@ -11,13 +11,18 @@ class Recommendations  {
 
   lazy val latestContent: List[Content] =  Api.search.pageSize(50).showTags("keyword").response.results
   lazy val myTags: Map[String, Int] = User.current.is.map(_.interestingTags.get) getOrElse Map()
+  lazy val myUris: List[String] = User.current.is.map(_.history.get) getOrElse Nil
 
 
-  lazy val scoredContent = latestContent.map(content => content -> scoreContent(content))
+  lazy val scoredContent = latestContent
+    .filterNot(c => myUris.contains(c.id))
+    .map(content => content -> scoreContent(content))
     .sortBy { case (content, score) => score }.reverse.take(5)
 
   def scoreContent (content : Content) = {
-    if (content.tags.isEmpty) 0 else {
+    if (content.tags.isEmpty) 0
+    else if(content.tags.length == 1) 0
+    else {
       val tagScores = for (tag <- content.tags) yield myTags.getOrElse(tag.id, 0)
       tagScores.sum / content.tags.size
     }
