@@ -11,7 +11,7 @@ import xml._
 
 class Favourites {
   val user: User = User.current.is.get
-  def tags = user.interestingTags.get.toList.sortBy {case (k,v) => v}.reverse.take(5).map(_._1)
+  def tags = user.interestingTags.get.toList.sortBy {case (k,v) => v}.reverse.take(5)
 
 
   def increment(tagId: String) : JsCmd =  {
@@ -33,9 +33,9 @@ class Favourites {
   def list = {
     val apiTags: List[Tag]= Api.tags.ids(tags.mkString(",")).results
     "li *" #> tags.map { tag =>
-      ".taglink" #> <a href={"/" + tag}>{apiTags.find(_.id == tag).map(_.webTitle).getOrElse("")}</a> &
-      ".like" #> SHtml.a(() => increment(tag), Text("( + )")) &
-      ".dislike" #> SHtml.a(() => decrement(tag), Text("( - )"))
+      ".taglink" #> <a href={"/" + tag._1} title={"Score: "+tag._2}>{apiTags.find(_.id == tag._1).map(_.webTitle).getOrElse("")}</a> &
+      ".like" #> SHtml.a(() => increment(tag._1), Text("( + )")) &
+      ".dislike" #> SHtml.a(() => decrement(tag._1), Text("( - )"))
     }
   }
 }
