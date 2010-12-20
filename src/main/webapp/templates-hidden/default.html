@@ -48,18 +48,11 @@
                 </div>
 
                  <!-- recommendations -->
-                <div class="lift:Recommendations infobox">
-                     <h4>We recommend:</h4>
-                    <ul>
-                        <li class="recommendations"><a class="link-text" href="#">Web title</a></li>
-                    </ul>
+                <div id="recom">
+                 <lift:embed what="recommendations"></lift:embed>
                 </div>
-                <div class="favourites infobox">
-                    <h4>Your favourite tags</h4>
-                    <ul class="lift:Favourites.list">
-                        <li><a class="taglink" href="#">My Tag</a></li>
-                    </ul>
-                </div>
+
+                <lift:embed what="favourite_tags"></lift:embed>
 
                 <div class="taglist lift:ContentTags contenttags infobox">
                     <h4>Tags on this content</h4>

@@ -22,6 +22,13 @@ class User extends MongoRecord[User] with MongoId[User] {
   object history extends MongoListField[User, String](this)
   object lastVisited extends StringField(this, 500)
   object interestingTags extends MongoMapField[User, Int](this)
+
+  def incrementTagCount(tagId: String, delta: Int) = {
+    val tagMap = interestingTags.get
+    val currentCount = tagMap.getOrElse(tagId, 0)
+    val newCount = currentCount + delta
+    interestingTags.set(tagMap.updated(tagId, newCount))
+  }
 }
 
 object User extends User with MongoMetaRecord[User]  {

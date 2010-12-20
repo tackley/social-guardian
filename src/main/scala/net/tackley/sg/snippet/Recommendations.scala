@@ -10,11 +10,11 @@ import xml.{Unparsed}
 class Recommendations  {
 
   lazy val latestContent: List[Content] =  Api.search.pageSize(50).showTags("keyword").response.results
-  lazy val myTags: Map[String, Int] = User.current.is.map(_.interestingTags.get) getOrElse Map()
+  def myTags: Map[String, Int] = User.current.is.map(_.interestingTags.get) getOrElse Map()
   lazy val myUris: List[String] = User.current.is.map(_.history.get) getOrElse Nil
 
 
-  lazy val scoredContent = latestContent
+  def scoredContent = latestContent
     .filterNot(c => myUris.contains("/"+c.id))
     .map(content => content -> scoreContent(content))
     .sortBy { case (content, score) => score }.reverse.take(5)
@@ -29,7 +29,7 @@ class Recommendations  {
   }
 
   def render = "li *" #> scoredContent.map { case (content, score) =>
-    ".link-text" #> <a href={"/" + content.id}>{Unparsed(content.webTitle)}</a>
+    ".link-text" #> <a title={"score: "+score} href={"/" + content.id}>{Unparsed(content.webTitle)}</a>
   }
 
 
