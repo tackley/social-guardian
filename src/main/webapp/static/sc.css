@@ -72,3 +72,7 @@ border-bottom: 1px #ddd solid;
 .twittername {
     padding-right: 3px;
 }
+
+.readingnow-userlist, .readingnowmain-userlist {
+list-style: none;
+}

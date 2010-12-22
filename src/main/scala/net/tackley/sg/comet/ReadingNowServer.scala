@@ -41,8 +41,8 @@ class ReadingNow extends CometActor with CometListener {
       ".link" #> <a href={uri}>{infolist.head.pageName}</a> &
       ".trail-text" #> Unparsed(infolist.head.trailText) &
       "* [class+]" #> ( if(currentUri === uri ) "currentUser" else "" ) &
-        ".user" #> infolist.map(info =>
-          "*" #> <a class="twittername" href={"http://twitter.com/"+info.user}>{"@"+info.user}</a>)
+        ".readingnow-user" #> infolist.map(info =>
+          "li *" #> <a class="twittername" href={"http://twitter.com/"+info.user}>{"@"+info.user}</a>)
     }
   }
 }
@@ -65,8 +65,8 @@ class ReadingNowMain extends CometActor with CometListener {
       ".link" #> <a href={uri}>{infolist.head.pageName}</a> &
       ".trail-text" #> Unparsed(infolist.head.trailText) &
       "* [class+]" #> ( if(currentUri === uri ) "currentUser" else "" ) &
-      ".user" #> infolist.map(info =>
-        "*" #> <a class="twittername" href={"http://twitter.com/"+info.user}>{"@"+info.user}</a>)
+        ".readingnowmain-user" #> infolist.map(info =>
+          "li *" #> <a class="twittername" href={"http://twitter.com/"+info.user}>{"@"+info.user}</a>)
     }
   }
 }
