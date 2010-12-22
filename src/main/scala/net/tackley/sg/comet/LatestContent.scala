@@ -18,9 +18,7 @@ object LatestContentServer extends LiftActor with ListenerManager {
 
   override def lowPriority = {
     case _ : PollLatestContent =>
-      println("polling...")
       latest = Api.search.showFields("all").showTags("all").response.results
-      println("latest content updated")
       updateListeners
   }
 

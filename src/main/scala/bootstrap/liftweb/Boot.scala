@@ -25,7 +25,6 @@ class Boot {
     LiftRules.statelessRewrite.append{
       case RewriteRequest(ParsePath(path, "", _, _), GetRequest, httpreq)
         if !(nonGuPathRootsOption contains path.headOption) =>
-        println("rewriting " + path)
         RewriteResponse("index" :: Nil, Map("path" -> path.mkString("/")))
     }
 
