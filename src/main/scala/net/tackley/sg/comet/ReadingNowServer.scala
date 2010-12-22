@@ -35,12 +35,14 @@ class ReadingNow extends CometActor with CometListener {
   def render = {
     val currentUsername = for (user <- User.current.is) yield user.name.get
     val currentUri = for (user <- User.current.is) yield user.lastVisited.get
+    val byUrl = readingNow.filterNot(currentUsername === _.user).groupBy(_.uri)
 
-    "*" #> readingNow.filterNot(currentUsername === _.user).map { r =>
-      ".user" #> <a href={"http://twitter.com/"+r.user}>{"@" + r.user}</a> &
-      ".link" #> <a href={r.uri}>{r.pageName}</a> &
-      ".trail-text" #> Unparsed(r.trailText) &
-      "* [class+]" #> ( if(currentUri === r.uri ) "currentUser" else "" )
+    "*" #> byUrl.map { case (uri,infolist) =>
+      ".link" #> <a href={uri}>{infolist.head.pageName}</a> &
+      ".trail-text" #> Unparsed(infolist.head.trailText) &
+      "* [class+]" #> ( if(currentUri === uri ) "currentUser" else "" ) &
+        ".user" #> infolist.map(info =>
+          "*" #> <a class="twittername" href={"http://twitter.com/"+info.user}>{"@"+info.user}</a>)
     }
   }
 }
@@ -57,12 +59,14 @@ class ReadingNowMain extends CometActor with CometListener {
   def render = {
     val currentUsername = for (user <- User.current.is) yield user.name.get
     val currentUri = for (user <- User.current.is) yield user.lastVisited.get
+    val byUrl = readingNow.filterNot(currentUsername === _.user).groupBy(_.uri)
 
-    "*" #> readingNow.filterNot(currentUsername === _.user).map { r =>
-      ".user" #> <a href={"http://twitter.com/"+r.user}>{"@" + r.user}</a> &
-      ".link" #> <a href={r.uri}>{r.pageName}</a> &
-      ".trail-text" #> Unparsed(r.trailText) &
-      "* [class+]" #> ( if(currentUri === r.uri ) "currentUser" else "" )
+    "*" #> byUrl.map { case (uri,infolist) =>
+      ".link" #> <a href={uri}>{infolist.head.pageName}</a> &
+      ".trail-text" #> Unparsed(infolist.head.trailText) &
+      "* [class+]" #> ( if(currentUri === uri ) "currentUser" else "" ) &
+      ".user" #> infolist.map(info =>
+        "*" #> <a class="twittername" href={"http://twitter.com/"+info.user}>{"@"+info.user}</a>)
     }
   }
 }
