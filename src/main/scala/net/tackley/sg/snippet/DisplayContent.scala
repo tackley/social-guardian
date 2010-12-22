@@ -48,8 +48,7 @@ class DisplayContent extends Loggable {
 
     case Some("<!-- Redistribution rights for this field are unavailable -->") =>
       <div class="no-rights">
-        Whoops!  Thanks to the vagaries of UK law, The Guardian only provides the content of this article
-        to people scraping the website or RSS feeds, not via the content api.
+        Sorry but the guardian isnt able to redistribute this content, so we don't have it.
         <a href={content.webUrl} target="_blank">
           You may if you wish abandon your social engagement and view on guardian.co.uk instead.
         </a>
