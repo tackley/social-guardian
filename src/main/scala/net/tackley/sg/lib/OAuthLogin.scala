@@ -7,10 +7,11 @@ import net.liftweb.util.Helpers.{urlDecode, appendParams}
 import org.apache.commons.httpclient.{HttpClient, MultiThreadedHttpConnectionManager}
 import net.liftweb.common.Loggable
 import xml.{Node, XML}
+import net.liftweb.util.Props
 
 object OAuthLogin extends Loggable {
 
-  val consumer_token = Consumer("fbvfFeJMOIr776WVeCcPw", "sXVB1OojJFxJrmrzCOgeuyBU91nO8DxbwXMbWWcP3pg")
+  val consumer_token = Consumer(Props.get("twitter_oauth_key").open_!, Props.get("twitter_oauth_secret").open_!)
 
 
   lazy val connectionManager = new MultiThreadedHttpConnectionManager

@@ -10,6 +10,7 @@ import net.liftweb.common.{Logger, Box, Full}
 import dispatch.oauth._
 import net.liftweb.json.JsonDSL._
 import net.liftweb.json.JsonAST._
+import net.liftweb.util.Props
 
 class Boot {
 
@@ -17,7 +18,7 @@ class Boot {
   val nonGuPathRootsOption = nonGuPathRoots.map(Some(_))
 
   def boot = {
-    MongoDB.defineDbAuth(DefaultMongoIdentifier, MongoAddress(MongoHost("flame.mongohq.com", 27063), "socialguardian"), "bruntonspall", "1234567")
+    MongoDB.defineDbAuth(DefaultMongoIdentifier, MongoAddress(MongoHost("flame.mongohq.com", 27063), Props.get("mongo_database").open_!), Props.get("mongo_username").open_!, Props.get("mongo_password").open_!)
     User.ensureIndex("name" -> 1, ("unique" -> true) ~ ("background" -> true))
 
     LiftRules.htmlProperties.default.set((r: Req) => new Html5Properties(r.userAgent))
@@ -32,7 +33,7 @@ class Boot {
 
     LiftRules.loggedInTest = Full(User.isLoggedIn _)
 
-    Api.apiKey = Some("k8nd4jpt2fxmv3ewwevwahrr")
+    Api.apiKey = Props.get("gu_api_key")
 
     LiftRules.dispatch.append {
       case Req("oauth" :: "signin" :: Nil, _, GetRequest) => doSignin _
