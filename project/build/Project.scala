@@ -1,7 +1,7 @@
 import sbt._
 
-class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) {
-  val liftVersion = "2.2-RC1"
+class Project(info: ProjectInfo) extends DefaultWebProject(info) {
+  val liftVersion = "2.2"
   val dispatchVersion = "0.7.8"
 
   val scalaSnapshots = ScalaToolsSnapshots
@@ -10,10 +10,13 @@ class LiftProject(info: ProjectInfo) extends DefaultWebProject(info) {
   
   val liftUtil = "net.liftweb" %% "lift-util" % liftVersion  withSources
   val liftCommon ="net.liftweb" %% "lift-common" % liftVersion withSources
+  val liftJson ="net.liftweb" %% "lift-json" % liftVersion withSources
   val liftWebkit ="net.liftweb" %% "lift-webkit" % liftVersion withSources
   val liftRecord = "net.liftweb" %% "lift-record" % liftVersion withSources
+  //val liftFacebook= "net.liftweb" %% "lift-facebook" % liftVersion withSources
   val liftMongoRecord = "net.liftweb" %% "lift-mongodb-record" % liftVersion withSources
 
+  val commonsCodec = "commons-codec" % "commons-codec" % "1.4" withSources
   val contentApiClient = "com.gu.openplatform" %% "content-api-client" % "1.10-SNAPSHOT" withSources()
 
   val liftTestkit = "net.liftweb" %% "lift-testkit" % liftVersion

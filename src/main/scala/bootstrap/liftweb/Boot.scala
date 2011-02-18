@@ -24,7 +24,7 @@ class Boot {
         Props.get("mongo_username").open_!,
         Props.get("mongo_password").open_!)
 
-    User.ensureIndex("name" -> 1, ("unique" -> true) ~ ("background" -> true))
+    User.ensureIndex("facebookId" -> 1, ("unique" -> true) ~ ("background" -> true))
 
     LiftRules.htmlProperties.default.set((r: Req) => new Html5Properties(r.userAgent))
 

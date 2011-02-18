@@ -3,16 +3,18 @@ package net.tackley.sg.model
 import net.liftweb.mongodb.record.{MongoId, MongoMetaRecord, MongoRecord}
 import net.liftweb.record._
 import field.{StringField, OptionalStringField, PasswordField, EmailField}
-import net.liftweb.http.SessionVar
-import net.liftweb.common._
 import java.util.Date
 import net.liftweb.mongodb.{JsonObjectMeta, JsonObject}
 import net.liftweb.mongodb.record.field.{MongoMapField, MongoListField, MongoJsonObjectListField}
+import net.tackley.sg.lib.Facebook
+import net.liftweb.http.{S, SessionVar}
+import net.liftweb.common._
 
 class User extends MongoRecord[User] with MongoId[User] {
   def meta = User
 
   object name extends StringField(this, 64)
+  object facebookId extends StringField(this, 64)
   object fullName extends StringField(this, 64)
   object email extends EmailField(this, 100)
   object password extends PasswordField(this)
@@ -31,8 +33,43 @@ class User extends MongoRecord[User] with MongoId[User] {
   }
 }
 
-object User extends User with MongoMetaRecord[User]  {
+object User extends User with MongoMetaRecord[User] with Loggable  {
   object current extends SessionVar[Box[User]](Empty)
 
-  def isLoggedIn = current.isDefined
+  def isLoggedIn = {
+    if (S.post_?) syncWithFacebookLogin
+    current.isDefined
+  }
+
+  def syncWithFacebookLogin {
+    // don't do anything if we don't have a signed request
+    for (signedRequest <- Facebook.signedRequest.is) {
+      signedRequest.user_id match {
+        case None =>
+          logger.info("No user_id in request, logging out")
+
+          User.current(Empty)
+        case Some(fbId) => User.current.is match {
+          case Empty =>
+            logger.info("Logging in")
+
+            val me = Facebook.me
+            logger.info("me = " + me)
+            val u = User.find("facebookId", fbId).getOrElse(User.createRecord)
+            u.facebookId(fbId)
+            val name = me.map(_.name) openOr "Unknown"
+            u.name(name)
+            u.fullName(name)
+            u.save(strict = true)
+            User.current(Full(u))
+
+          case Full(u) if Some(u.facebookId) != signedRequest.user_id =>
+            logger.info("Userid doesn't match should log out : " + Some(u.facebookId) + " -> " + signedRequest.user_id)
+//            User.current(Empty)
+
+          case _ => // nothing to do
+        }
+      }
+    }
+  }
 }

@@ -24,66 +24,55 @@
 </script>
   </head>
   <body>
-    <div class="container">
+      <div class="lift:TestCond.loggedout">
+          <span class="lift:FacebookInfo.oauthDialog"></span>
+      </div>
+
+    <div class="lift:TestCond.loggedin container">
         <h1><a href="/"><span class="alt">sg</span> The Social Guardian</a></h1>
         <hr>
 
-        <p class="lift:Facebook.show">Show facebook posted info here</p>
+        <!--<p class="lift:FacebookInfo.show">Show facebook posted info here</p>-->
 
-        <div class="lift:TestCond.loggedout span-16 push-4 loginbox">
-            <h1>It's a social thing...</h1>
-            <p>We need to know a bit more about you before you can get to the juicy stuff.</p>
-            <p><a href="/oauth/signin"><img src="http://a0.twimg.com/images/dev/buttons/sign-in-with-twitter-d.png" > </a></p>
-            <p>We promise to never send tweets from your account, we simply use twitter to find out who is in your social circle</p>
+        <div class="sidebar span-6 border">
+            <div class="lift:Login.details aboutyou infobox" >
+                <h4>About You</h4>
 
+                <span class="num-pages">14</span> pages visited on <span class="alt">sg</span><br>
 
-            <div class="lift:Login.pretend?form=post locallogin">
-                <p>Since you are a friendly local, why not login without all the oauth hassle?</p>
-                <label for="loginName">Username: </label><input type="text "id="loginName">
-                <input type="submit" id="go" value="go">
+               Logged in as <span class="username"></span> <a href="#">Log out</a>
             </div>
-        </div>
-        
-        <div class="lift:TestCond.loggedin">
-            <div class="sidebar span-6 border">
-                <div class="lift:Login.details aboutyou infobox" >
-                    <h4>About You</h4>
+            <div class="readingnow infobox">
+                <h4>Being read</h4>
+                <ul class="readingnowside">
+                    <li class="lift:Comet?type=ReadingNow readingnowitem">
+                        <a href="#" class="link">Web link</a>
+                        <ul class="readingnow-userlist">
+                            <li class="readingnow-user"><a class="user" href="http://twitter.com/username">@username</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
 
-                    <span class="num-pages">14</span> pages visited on <span class="alt">sg</span><br>
 
-                   Logged in as <span class="username"></span> <a href="#">Log out</a>
-                </div>
-                <div class="readingnow infobox">
-                    <h4>Being read</h4>
-                    <ul class="readingnowside">
-                        <li class="lift:Comet?type=ReadingNow readingnowitem">
-                            <a href="#" class="link">Web link</a>
-                            <ul class="readingnow-userlist">
-                                <li class="readingnow-user"><a class="user" href="http://twitter.com/username">@username</a></li>
-                            </ul>
-                        </li>
+            <div id="recom">
+             <lift:embed what="recommendations"></lift:embed>
+            </div>
+
+            <lift:embed what="favourite_tags"></lift:embed>
+
+            <div class="taglist lift:ContentTags contenttags infobox">
+                <h4>Tags on this content</h4>
+                <!-- tags -->
+                <div>
+                    <ul>
+                        <li class="tags"><a class="link-text" href="#">Web title</a></li>
                     </ul>
                 </div>
-
-
-                <div id="recom">
-                 <lift:embed what="recommendations"></lift:embed>
-                </div>
-
-                <lift:embed what="favourite_tags"></lift:embed>
-
-                <div class="taglist lift:ContentTags contenttags infobox">
-                    <h4>Tags on this content</h4>
-                    <!-- tags -->
-                    <div>
-                        <ul>
-                            <li class="tags"><a class="link-text" href="#">Web title</a></li>
-                        </ul>
-                    </div>
-                </div>
             </div>
-            <lift:bind name="content" />
         </div>
+
+        <lift:bind name="content" />
 
     </div>
   </body>
