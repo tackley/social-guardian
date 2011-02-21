@@ -31,7 +31,7 @@ class Boot {
     LiftRules.htmlProperties.default.set((r: Req) => new Html5Properties(r.userAgent))
 
     LiftRules.statelessRewrite.append{
-      case RewriteRequest(ParsePath(path, "", _, _), GetRequest, httpreq)
+      case RewriteRequest(ParsePath(path, "", _, _), _, httpreq)
         if !(nonGuPathRootsOption contains path.headOption) =>
           RewriteResponse("index" :: Nil, Map("path" -> path.mkString("/")))
     }

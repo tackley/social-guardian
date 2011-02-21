@@ -6,7 +6,12 @@ import net.liftweb.util.Helpers._
 import net.tackley.sg.model.User
 import xml._
 
-case class ReadingNowInfo(user: String, uri: String, pageName: String, trailText: String)
+case class ReadingNowInfo(
+  user: String,
+  userProfile: String,
+  uri: String,
+  pageName: String,
+  trailText: String)
 
 
 object ReadingNowServer extends LiftActor with ListenerManager {
@@ -41,8 +46,8 @@ class ReadingNow extends CometActor with CometListener {
       ".link" #> <a href={uri}>{infolist.head.pageName}</a> &
       ".trail-text" #> Unparsed(infolist.head.trailText) &
       "* [class+]" #> ( if(currentUri === uri ) "currentUser" else "" ) &
-        ".readingnow-user" #> infolist.map(info =>
-          "li *" #> <a class="twittername" href={"http://twitter.com/"+info.user}>{info.user}</a>)
+      ".readingnow-user" #> infolist.map(info =>
+        "li *" #> <a class="twittername" href={info.userProfile}>{info.user}</a>)
     }
   }
 }
@@ -65,8 +70,8 @@ class ReadingNowMain extends CometActor with CometListener {
       ".link" #> <a href={uri}>{infolist.head.pageName}</a> &
       ".trail-text" #> Unparsed(infolist.head.trailText) &
       "* [class+]" #> ( if(currentUri === uri ) "currentUser" else "" ) &
-        ".readingnowmain-user" #> infolist.map(info =>
-          "li *" #> <a class="twittername" href={"http://twitter.com/"+info.user}>{info.user}</a>)
+      ".readingnowmain-user" #> infolist.map(info =>
+        "li *" #> <a class="twittername" href={info.userProfile}>{info.user}</a>)
     }
   }
 }

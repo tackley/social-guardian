@@ -20,7 +20,7 @@ class DisplayContent extends Loggable {
 
   def logUserRequest = {
     for (user <- User.current.is) {
-      var tagMap = user.interestingTags.get
+      val tagMap = user.interestingTags.get
       val interestedTags = content.tags.filter(_.tagType=="keyword").map(tag => (tag.id,(tagMap.getOrElse(tag.id,0)+1))).toMap
       user.interestingTags.set(tagMap++interestedTags)
       user.save
@@ -42,15 +42,15 @@ class DisplayContent extends Loggable {
       <div class="no-body">
         Sorry, at the moment The Social Guardian doesn't know how to display this kind of content.
         <a href={content.webUrl} target="_blank">
-          You may if you wish abandon your social engagement and view on guardian.co.uk instead.
+          Click here to view on guardian.co.uk instead.
         </a>
       </div>
 
     case Some("<!-- Redistribution rights for this field are unavailable -->") =>
       <div class="no-rights">
-        Sorry but the guardian isnt able to redistribute this content, so we don't have it.
+        Sorry but the guardian isn't able to redistribute this content, so we don't have it.
         <a href={content.webUrl} target="_blank">
-          You may if you wish abandon your social engagement and view on guardian.co.uk instead.
+          Click here to view on guardian.co.uk instead.
         </a>
 
       </div>

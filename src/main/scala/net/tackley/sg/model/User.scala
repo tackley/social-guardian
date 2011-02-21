@@ -15,6 +15,7 @@ class User extends MongoRecord[User] with MongoId[User] {
 
   object name extends StringField(this, 64)
   object facebookId extends StringField(this, 64)
+  object profilePage extends StringField(this, 500)
   object fullName extends StringField(this, 64)
   object email extends EmailField(this, 100)
   object password extends PasswordField(this)
@@ -60,12 +61,13 @@ object User extends User with MongoMetaRecord[User] with Loggable  {
             val name = me.map(_.name) openOr "Unknown"
             u.name(name)
             u.fullName(name)
+            u.profilePage(me.map(_.link) openOr "http://www.facebook.com")
             u.save(strict = true)
             User.current(Full(u))
 
           case Full(u) if Some(u.facebookId.get) != signedRequest.user_id =>
             logger.info(" -> Userid doesn't match should log out : " + Some(u.facebookId) + " -> " + signedRequest.user_id)
-  //            User.current(Empty)
+            User.current(Empty)
 
           case _ => // nothing to do
             logger.info(" -> No changes made")

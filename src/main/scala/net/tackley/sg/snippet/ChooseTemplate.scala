@@ -28,14 +28,15 @@ class ChooseTemplate {
       user.lastVisited.set(S.uri)
       user.save
 
-      ReadingNowServer ! ReadingNowInfo(user.name.get, S.uri, currentHeadline, currentStandfirst)
+      ReadingNowServer ! ReadingNowInfo(user.name.get, user.profilePage.get,
+        S.uri, currentHeadline, currentStandfirst)
     }
   }
 
   def currentHeadline = Current.item.content.map(_.webTitle)
     .orElse(Current.item.section.map(_.webTitle))
     .orElse(Current.item.tag.map(_.webTitle))
-    .getOrElse("front")
+    .getOrElse("Home")
 
   def currentStandfirst = Current.item.content.flatMap(_.safeFields.get("standfirst"))
     .getOrElse("Summary page for "+currentHeadline)

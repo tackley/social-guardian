@@ -30,8 +30,8 @@ case class SignedRequest(
 
 case class FacebookUser(
   id: String,
-  name: String
-                 )
+  name: String,
+  link: String)
 
 object Facebook extends Loggable {
   val appId = Props.get("facebook_app_id").open_!
