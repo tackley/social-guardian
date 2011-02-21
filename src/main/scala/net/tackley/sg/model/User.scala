@@ -7,8 +7,8 @@ import java.util.Date
 import net.liftweb.mongodb.{JsonObjectMeta, JsonObject}
 import net.liftweb.mongodb.record.field.{MongoMapField, MongoListField, MongoJsonObjectListField}
 import net.tackley.sg.lib.Facebook
-import net.liftweb.http.{S, SessionVar}
 import net.liftweb.common._
+import net.liftweb.http.{Req, S, SessionVar}
 
 class User extends MongoRecord[User] with MongoId[User] {
   def meta = User
@@ -42,17 +42,17 @@ object User extends User with MongoMetaRecord[User] with Loggable  {
   }
 
   def syncWithFacebookLogin {
+    logger.info("Syncing with facebook login... (signed request is " + Facebook.signedRequest.is + ")")
+
     // don't do anything if we don't have a signed request
     for (signedRequest <- Facebook.signedRequest.is) {
       signedRequest.user_id match {
         case None =>
-          logger.info("No user_id in request, logging out")
-
+          logger.info(" -> No user_id in request, logging out")
           User.current(Empty)
         case Some(fbId) => User.current.is match {
           case Empty =>
-            logger.info("Logging in")
-
+            logger.info(" -> Logging in as user id " + fbId)
             val me = Facebook.me
             logger.info("me = " + me)
             val u = User.find("facebookId", fbId).getOrElse(User.createRecord)
@@ -63,11 +63,12 @@ object User extends User with MongoMetaRecord[User] with Loggable  {
             u.save(strict = true)
             User.current(Full(u))
 
-          case Full(u) if Some(u.facebookId) != signedRequest.user_id =>
-            logger.info("Userid doesn't match should log out : " + Some(u.facebookId) + " -> " + signedRequest.user_id)
-//            User.current(Empty)
+          case Full(u) if Some(u.facebookId.get) != signedRequest.user_id =>
+            logger.info(" -> Userid doesn't match should log out : " + Some(u.facebookId) + " -> " + signedRequest.user_id)
+  //            User.current(Empty)
 
           case _ => // nothing to do
+            logger.info(" -> No changes made")
         }
       }
     }

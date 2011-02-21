@@ -1,6 +1,5 @@
 package net.tackley.sg.lib
 
-import net.liftweb.http.{S, RequestVar}
 import org.apache.commons.codec.binary.Base64
 import net.liftweb.json._
 import dispatch._
@@ -8,7 +7,8 @@ import net.liftweb.util.Helpers._
 import net.liftweb.util.Props
 import java.net.URL
 import java.io.InputStreamReader
-import net.liftweb.common.{Box, Loggable}
+import net.liftweb.common.{Empty, Box, Loggable}
+import net.liftweb.http.{Req, S, RequestVar}
 
 case class SummaryFacebookAge(
   min: Option[Int],

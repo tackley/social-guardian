@@ -18,6 +18,8 @@ class Boot {
   val nonGuPathRootsOption = nonGuPathRoots.map(Some(_))
 
   def boot = {
+    Props.requireOrDie("mongo_database", "mongo_username", "mongo_password", "gu_api_key", "facebook_app_id")
+
     MongoDB.defineDbAuth(DefaultMongoIdentifier,
       MongoAddress(MongoHost("flame.mongohq.com", 27073),
         Props.get("mongo_database").open_!),
@@ -39,11 +41,8 @@ class Boot {
     LiftRules.loggedInTest = Full(User.isLoggedIn _)
 
     Api.apiKey = Props.get("gu_api_key")
-
-//    LiftRules.dispatch.append {
-//      case Req("oauth" :: "signin" :: Nil, _, GetRequest) => doSignin _
-//      case Req("oauth" :: "callback" :: Nil, _, GetRequest) => () => doCallback
-//    }
   }
+
+
 
 }
