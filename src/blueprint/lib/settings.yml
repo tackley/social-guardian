@@ -1,0 +1,10 @@
+# refer to http://www.yaml.org/spec/1.1/ for clarification on YAML collections
+sgfb:
+  path: ../../main/webapp/static
+  custom_layout:
+    column_count: 19
+    column_width: 30
+    gutter_width: 10
+  plugins:
+    - fancy-type
+

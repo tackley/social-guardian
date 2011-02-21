@@ -3,11 +3,16 @@
   <head>
 
     <title>SG</title>
-    <style class="lift:CSS.blueprint"></style>
-    <style class="lift:CSS.fancyType" ></style>
+
+    <link rel="stylesheet" href="/static/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/static/print.css" type="text/css" media="print">
+    <!--[if lt IE 8]>
+      <link rel="stylesheet" href="/static/ie.css" type="text/css" media="screen, projection">
+    <![endif]-->
+    <link type="text/css" href="/static/sc.css" rel="stylesheet" media="screen, projection" />
+
     <script id="jquery" src="/classpath/jquery.js" type="text/javascript"></script>
     <script id="json" src="/classpath/json.js" type="text/javascript"></script>
-    <link type="text/css" href="/static/sc.css" rel="stylesheet" media="screen, projection" />
     <link rel="apple-touch-icon" href="/SG.png"/>
       <script type="text/javascript">
 
@@ -24,6 +29,7 @@
 </script>
   </head>
   <body>
+      <div id="fb-root"></div>
       <div class="lift:TestCond.loggedout">
           <span class="lift:FacebookInfo.oauthDialog"></span>
       </div>
@@ -31,8 +37,6 @@
     <div class="lift:TestCond.loggedin container">
         <h1><a href="/"><span class="alt">sg</span> The Social Guardian</a></h1>
         <hr>
-
-        <!--<p class="lift:FacebookInfo.show">Show facebook posted info here</p>-->
 
         <div class="sidebar span-6 border">
             <div class="lift:Login.details aboutyou infobox" >
@@ -75,5 +79,22 @@
         <lift:bind name="content" />
 
     </div>
+
+      <script src="http://connect.facebook.net/en_US/all.js"></script>
+      <script>
+          FB.init({
+           appId  : '189763911057749',
+           status : true, // check login status
+           cookie : true, // enable cookies to allow the server to access the session
+           xfbml  : true  // parse XFBML
+         });
+
+          window.fbAsyncInit = function() {
+            FB.Canvas.setAutoResize();
+          }
+
+      </script>
+
+
   </body>
 </html>
